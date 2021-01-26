@@ -9,16 +9,18 @@ public class Exerc1 {
 		
 		int anos, meses, dias, idadeDias;
 		
-		System.out.println("Digite quantos anos você tem: ");
+		System.out.print("Digite quantos anos você tem: ");
 		anos = read.nextInt();
-		System.out.println("Agora quantos meses: ");
+		System.out.print("Agora quantos meses: ");
 		meses = read.nextInt();
-		System.out.println("E os dias: ");
+		System.out.print("E os dias: ");
 		dias = read.nextInt();
+		
+		read.close(); 
 		
 		idadeDias = anos * 365 + meses * 30 + dias;
 		
-		System.out.println("Você tem " + idadeDias  + "dias de idade");
+		System.out.printf("Você tem %d dias de idade", idadeDias);
 		
 	}
 

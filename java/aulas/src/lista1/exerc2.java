@@ -8,17 +8,17 @@ public class exerc2 {
 		
 		Scanner read = new Scanner(System.in);
 		
-		System.out.println("Diga sua idade em dias: ");
+		System.out.print("Diga sua idade em dias: ");
 		int idadeDias = read.nextInt();
-		
+		read.close();
 		sobraMeses = (idadeDias % 365);
 		dias = (sobraMeses % 30);
 		
 		anos = (idadeDias - sobraMeses) / 365;
-		System.out.println(anos);
+		System.out.print(anos);
 		meses = (sobraMeses - dias) / 30;
-		System.out.println(meses);
+		System.out.print(meses);
 		
-		System.out.printf("Você tem " + anos + " anos, " + meses + " meses e " + dias + " dias");
+		System.out.printf("Você tem %d anos, %d meses e %d dias", anos, meses, dias);
 	}
 }

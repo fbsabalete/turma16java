@@ -5,20 +5,17 @@ import java.util.Scanner;
 public class Exerc3 {
 	public static void main(String[] args) {
 		Scanner read = new Scanner(System.in);
-		int A, B, C, R, S, D;
 		
-		System.out.println("Digite o valor de A: ");
-		A = read.nextInt();
-		System.out.println("Digite o valor de B: ");
-		B = read.nextInt();
-		System.out.println("Digite o valor de C: ");
-		C = read.nextInt();
+		int segundosTotais, segundos, minutos, horas, minutosSobra;
+		System.out.print("Digite quantos segundos teve o evento: ");
+		segundosTotais = read.nextInt();
+		read.close();
+		minutosSobra = segundosTotais % 3600;
+		segundos = minutosSobra % 60;
 		
-		R = (A + B) * (A + B);
-		S = (B + C) * (B + C);
+		horas = (segundosTotais - minutosSobra) / 3600;
+		minutos = (minutosSobra - segundos) / 60;
 		
-		D = (R + S) / 2;
-		System.out.printf("O valor de D = " + D);
-
+		System.out.printf("O evento teve %d horas, %d minutos e %d segundos", horas, minutos, segundos);
 	}
 }
