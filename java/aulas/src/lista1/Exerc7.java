@@ -23,8 +23,6 @@ public class Exerc7 {
 		x = (c*e - b*f)/(a*e - b*d);
 		y = (a*f - c*d)/(a*e - b*d);
 		
-		System.out.printf("O valor de x é %.2f e y %.2f", x,y);
-		
-		
+		System.out.printf("O valor de x é %.2f e y %.2f", x,y);	
 	}
 }

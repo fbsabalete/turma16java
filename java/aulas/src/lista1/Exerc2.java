@@ -2,7 +2,7 @@ package lista1;
 
 import java.util.Scanner;
 
-public class exerc2 {
+public class Exerc2 {
 	public static void main(String[] args) {
 		int anos, meses, dias, sobraMeses;
 		

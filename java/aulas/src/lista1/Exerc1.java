@@ -21,7 +21,5 @@ public class Exerc1 {
 		idadeDias = anos * 365 + meses * 30 + dias;
 		
 		System.out.printf("Você tem %d dias de idade", idadeDias);
-		
 	}
-
 }
