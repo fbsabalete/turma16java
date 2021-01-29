@@ -9,9 +9,12 @@ public class DesafioBancos {
 		int tipo;
 		char movimento;
 		boolean sair = false;
-		String conta = "", descricao;
+		double retorno[] = new double[2];
+		String conta = ""; 
 
 		while (!sair) {
+			double extratoValor[] = new double[11];
+			String descricao[] = new String[11];
 			double saldo = 0.0;
 			char continua = 'S';
 			int contador = 0;
@@ -56,8 +59,13 @@ public class DesafioBancos {
 				} else {
 					saldo += valorMovimento;
 				}
+				extratoValor[contador] = valorMovimento;
 				System.out.print("Descrição: ");
-				descricao = ler.next();
+				if(movimento == 'D') {
+					descricao[contador] = ler.next() + " --- Débito";					
+				}else {
+					descricao[contador] = ler.next() + " --- Crédito";		
+				}
 				System.out.printf("Saldo atual: R$%.2f", saldo);
 				System.out.print("\nContinua? S/N: ");
 				continua = ler.next().toUpperCase().charAt(0);
@@ -66,26 +74,48 @@ public class DesafioBancos {
 
 			switch (tipo) {
 			case 1:
-				poupanca(saldo); // KEVIN
+				retorno = poupanca(saldo);// KEVIN
+				if(retorno[1] == 1) {
+					extratoValor[10] = retorno[0] - saldo;
+					descricao[10] = "Rendimento --- Crédito";
+				}
 				break;
 			case 2:
 				corrente(saldo); // DENILSON
 				break;
 			case 3:
-				especial(saldo); // DEBORA
+				retorno = especial(saldo); // DEBORA
+				if(retorno[1] == 1) {
+					extratoValor[10] = retorno[0] - saldo;
+					descricao[10] = "Limite especial --- Crédito";
+				}
 				break;
 			case 4:
-				empresa(saldo); // FERNANDO
+				retorno = empresa(saldo); // FERNANDO
+				if(retorno[1] == 1) {
+					extratoValor[10] = retorno[0] - saldo;
+					descricao[10] = "Empréstimo --- Crédito";
+				}
 				break;
 			case 5:
 				sair = true;
 				break;
 			}
+			
+			System.out.println("\n-------EXTRATO-------\n\n");
+			for(int i = 0;i < 11; i++) {
+				if(descricao[i] != null) {
+					System.out.printf(descricao[i] + "\n");
+					System.out.printf("Valor do movimento: R$%.2f", extratoValor[i]);
+					System.out.println();
+				}
+			}
 		}
 	}
 
-	public static void poupanca(double saldoAtual) {
+	public static double[] poupanca(double saldoAtual) {
 		char continua;
+		int cont = 0;
 		Scanner ler = new Scanner(System.in);
 
 		saldoAtual = saldoAtual + saldoAtual * 0.0005;
@@ -95,7 +125,10 @@ public class DesafioBancos {
 
 		if (continua == 'S') {
 			System.out.printf("Seu saldo é de R$%.2f", saldoAtual);
+			cont++;
 		}
+		double retorno[] = {saldoAtual, cont};
+		return retorno;
 	}
 
 	public static void corrente(double saldoAtual) {
@@ -121,9 +154,10 @@ public class DesafioBancos {
 		}
 	}
 
-	public static void especial(double saldoAtual) {
+	public static double[] especial(double saldoAtual) {
 		Scanner ler = new Scanner(System.in);
 		char limiteEspecial;
+		int cont = 0;
 		double valorLimite, limite = 1000.0;
 		System.out.println("Deseja utilizar o limite especial? S/N: ");
 		limiteEspecial = ler.next().toUpperCase().charAt(0);
@@ -143,12 +177,17 @@ public class DesafioBancos {
 			saldoAtual += valorLimite;
 			System.out.printf("\nSaldo: R$%.2f", saldoAtual);
 			System.out.println();
+			cont++;
 		}
+		double retorno[] = {saldoAtual, cont};
+		return retorno;
+
 	}
 
-	public static void empresa(double saldoAtual) {
+	public static double[] empresa(double saldoAtual) {
 		Scanner ler = new Scanner(System.in);
 		char emprestimo;
+		int cont = 0;
 		double valorEmprestimo, limite = 10000.0;
 		System.out.println("Deseja fazer um emprestimo? S/N: ");
 		emprestimo = ler.next().toUpperCase().charAt(0);
@@ -167,8 +206,12 @@ public class DesafioBancos {
 			saldoAtual += valorEmprestimo;
 			System.out.printf("\nSaldo: R$%.2f", saldoAtual);
 			System.out.println();
+			cont++;
 
 		}
+		double retorno[] = {saldoAtual, cont};
+		return retorno;
+
 	}
 
 	public static String definir(int tipo) {
