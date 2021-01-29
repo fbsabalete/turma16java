@@ -7,7 +7,7 @@ public class Exerc4 {
 		Scanner read = new Scanner(System.in);
 		int totalPessoas = 0, idade, sexo, tipo, calmas = 0, calmasMenor = 0,
 			mulherNervosa = 0, homemAgressivo = 0, outrosCalmos = 0, nervosaMaior40 = 0;
-		final int MAXIMO = 150;
+		final int MAXIMO = 6;
 		while(totalPessoas < MAXIMO) {
 			System.out.print("Idade: ");
 			idade = read.nextInt();

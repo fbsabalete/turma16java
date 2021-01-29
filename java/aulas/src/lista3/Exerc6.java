@@ -16,7 +16,11 @@ public class Exerc6 {
 			}
 		}while(numero != 0);
 		read.close();
-		media = totalMultiplo / contador;
-		System.out.printf("A média dos multiplos de 3 é: %.2f", media);
+		if(contador!=0) {
+			media = totalMultiplo / contador;
+			System.out.printf("A média dos multiplos de 3 é: %.2f", media);
+		}else {
+			System.out.println("Não houve múltiplos de três");
+		}
 	}
 }
