@@ -2,7 +2,7 @@ package projetos;
 
 import java.util.Scanner;
 
-public class Ecommerce {
+public class EcommerceTeste {
 	public static void main(String[] args) {
 		Scanner ler = new Scanner(System.in);
 		String produto[] = {"headset","monitor","teclado","mouse","CPU","webcam",
@@ -82,18 +82,17 @@ public class Ecommerce {
 			        
 				//----------------------------------
 				System.out.print("\nDigite o código do produto: ");
-				tempCodigo = ler.nextInt();					
+				tempCodigo = checkInt();		
 				while(tempCodigo < 1 || tempCodigo > 10) {
 					System.out.print("Digite um código válido: ");
 					tempCodigo = ler.nextInt();
 				}
 				for(int i = 0; i < 10; i++) {
 					if(tempCodigo == codigo[i]) {
-						
-						if(estoque[i] != 0) {
-							if(carrinho[i] == 0) {
+						if(carrinho[i] == 0) {
+							if(estoque[i] != 0) {
 								System.out.printf("Quantos do produto %s você deseja comprar? ", produto[i].toUpperCase());
-								quantidade = ler.nextInt();
+								quantidade = checkInt();
 								while(quantidade > estoque[i] || quantidade <= 0) {
 									if(quantidade > estoque[i]) {
 										System.out.printf("Temos apenas %d de estoque, digite um valor valido: ", estoque[i]);
@@ -107,41 +106,42 @@ public class Ecommerce {
 							 	estoque[i] = estoque[i] - quantidade;
 							 	precoTotal += quantidade*preco[i];
 							}else {
-								System.out.printf("Você adicionou %d produtos '%s' ao carrinho. O preço ficou R$ %.2f", carrinho[i], produto[i], preco[i]*carrinho[i]);
-								System.out.printf("\nDeseja alterar, deletar ou selecionar outro produto? [A/D/N]");
-								confirma = ler.next().toUpperCase().charAt(0);
-								while(confirma != 'A' && confirma != 'D' && confirma != 'N') {
-									System.out.print("Digite uma opção válida [A/D/N] ");
-									confirma = ler.next().toUpperCase().charAt(0);
-								}
-								if(confirma == 'A') {
-									precoTotal -= carrinho[i]*preco[i];
-									estoque[i] += carrinho[i];
-									System.out.printf("Qual a nova quantidade? ");
-									quantidade = ler.nextInt();
-									while(quantidade > estoque[i] || quantidade <= 0) {
-										if(quantidade > estoque[i]) {
-											System.out.printf("Temos apenas %d de estoque, digite um valor valido: ", estoque[i]);
-											quantidade = ler.nextInt();
-										}else if(quantidade <= 0) {
-											System.out.print("Digite uma quantidade válida: ");
-											quantidade = ler.nextInt();
-										}
-									}
-									carrinho[i] = quantidade;
-								 	estoque[i] = estoque[i] - quantidade;
-								 	precoTotal += quantidade*preco[i];
-								}else if(confirma == 'D') {
-									precoTotal -= carrinho[i]*preco[i];
-									estoque[i] += carrinho[i];
-									carrinho[i] = 0;
-									System.out.printf("O item %s foi tirado do carrinho.", produto[i]);
-									System.out.println();
-								}
+								System.out.println("Não temos estoque deste produto.\n");
 							}
 						}else {
-							System.out.println("Não temos estoque deste produto.\n");
+							System.out.printf("Você adicionou %d produtos '%s' ao carrinho. O preço ficou R$ %.2f", carrinho[i], produto[i], preco[i]*carrinho[i]);
+							System.out.printf("\nDeseja alterar, deletar ou selecionar outro produto? [A/D/N]");
+							confirma = ler.next().toUpperCase().charAt(0);
+							while(confirma != 'A' && confirma != 'D' && confirma != 'N') {
+								System.out.print("Digite uma opção válida [A/D/N] ");
+								confirma = ler.next().toUpperCase().charAt(0);
+							}
+							if(confirma == 'A') {
+								precoTotal -= carrinho[i]*preco[i];
+								estoque[i] += carrinho[i];
+								System.out.printf("Qual a nova quantidade? ");
+								quantidade = ler.nextInt();
+								while(quantidade > estoque[i] || quantidade <= 0) {
+									if(quantidade > estoque[i]) {
+										System.out.printf("Temos apenas %d de estoque, digite um valor valido: ", estoque[i]);
+										quantidade = ler.nextInt();
+									}else if(quantidade <= 0) {
+										System.out.print("Digite uma quantidade válida: ");
+										quantidade = ler.nextInt();
+									}
+								}
+								carrinho[i] = quantidade;
+							 	estoque[i] = estoque[i] - quantidade;
+							 	precoTotal += quantidade*preco[i];
+							}else if(confirma == 'D') {
+								precoTotal -= carrinho[i]*preco[i];
+								estoque[i] += carrinho[i];
+								carrinho[i] = 0;
+								System.out.printf("O item %s foi tirado do carrinho.", produto[i]);
+								System.out.println();
+							}
 						}
+						
 					}
 				}
 				System.out.printf("Deseja continuar comprando? [S/N] ");
@@ -210,7 +210,7 @@ public class Ecommerce {
 	        }else {
 	        	System.out.printf("Preço final: R$%.2f\n\n", precoFinal);
 	        }
-	        System.out.printf("Imposto 9%%: R$%.2f\n", precoFinal*0.09);
+	        System.out.printf("Imposto 9%%: R$%.2f\n", precoTotal*0.09);
 	        
 			ler.nextLine();
 		}
@@ -226,5 +226,15 @@ public class Ecommerce {
             }
         }
         System.out.printf("Preço total: R$%.2f\n\n", precoTotal);
+	}
+	
+	public static int checkInt() {
+		Scanner ler = new Scanner(System.in);
+		while(!ler.hasNextInt()) {
+			System.out.println("Digite um valor valido:");
+			ler.next();
+		}
+		int checked = ler.nextInt();
+		return checked;
 	}
 }
