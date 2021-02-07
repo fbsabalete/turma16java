@@ -6,7 +6,6 @@ public class Produto {
 	private double preco;
 	private int qtdCompra;
 	private double precoTotalProduto;
-	private double precoTotal;
 	
 	public int getQtdCompra() {
 		return qtdCompra;
@@ -19,19 +18,14 @@ public class Produto {
 	public void removerItem() {
 		qtdEstoque += qtdCompra;
 		qtdCompra = 0;
-		precoTotal -= precoTotalProduto;
 		precoTotalProduto = 0;
 	}
 	
 	public void comprar(int qtdCompra) {
 		this.qtdCompra = qtdCompra;
 		qtdEstoque -= qtdCompra;
-		this.precoTotal += precoTotalProduto;
 	}
 	
-	public double getPrecoTotal() {
-		return precoTotal;
-	}
 	
 	public double getPrecoTotalProduto() {
 		return precoTotalProduto;
@@ -41,7 +35,7 @@ public class Produto {
 		System.out.printf("   %d\t%s   R$%.2f    %d\n", this.getCodigo(), this.getDescricao(), this.getPreco(), this.getQtdEstoque());
 	}
 	public void getComprados() {
-		System.out.printf("   %d\t%s   R$%.2f    %d\n", this.getCodigo(), this.getDescricao(), this.getPreco(), this.qtdCompra);
+		System.out.printf("   %d\t%s   R$%.2f    %d\n", this.getCodigo(), this.getDescricao(), this.getPrecoTotalProduto(), this.qtdCompra);
 	}
 	
 	

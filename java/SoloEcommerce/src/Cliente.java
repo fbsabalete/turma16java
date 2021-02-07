@@ -1,35 +1,58 @@
+import java.util.Scanner;
 
 public class Cliente {
-	private String nome;
-	private char genero;
-	
-	public String tratamentoGenero() {
-		if(this.genero == 'F') {
-			return "Sra.";
-		}else if(this.genero == 'M') {
-			return "Sr.";
-		}else {
-			return "Srx.";
-		}
+
+	// Atributos
+	protected String nome;
+	protected char genero;
+	protected double precoTotal = 0;
+
+	public double getPrecoTotal() {
+		return precoTotal;
 	}
-	
-	public String getNome() {
-		return nome;
+
+	public void setPrecoTotal(double precoTotal) {
+		this.precoTotal = precoTotal;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public char getGenero() {
-		return genero;
-	}
+
 	public void setGenero(char genero) {
 		this.genero = genero;
 	}
-	public Cliente(String nome, char genero) {
-		super();
+
+	// Encapsulamento
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public char getGenero() {
+		return genero;
+	}
+
+	public void setGenero() {
+		Scanner leia = new Scanner(System.in);
+		char genero = leia.next().toUpperCase().charAt(0);
+		while (genero != 'F' && genero != 'M' && genero != 'O') {
+			System.out.print("Opção inválida. Por favor, digite F para feminino, M para masculino ou O para outros: ");
+			genero = leia.next().toUpperCase().charAt(0);
+		}
+		
 		this.genero = genero;
 	}
-	
-	
+
+	// Método
+	public String tratamento() {
+		String apelido = "";
+		if (genero == 'F') {
+			apelido = "Sra. ";
+		} else if (genero == 'M') {
+			apelido = "Sr. ";
+		} else {
+			apelido = "Srx. ";
+		}
+		return apelido;
+	}
 }
