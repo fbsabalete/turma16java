@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) throws FileNotFoundException  {
 		List<Cliente> cliente = new ArrayList<>();
-		List<Carrinho> carrinho = new ArrayList<>();
+		List<Produto> carrinho = new ArrayList<>();
 		List<Produto> produto = setup();
 		
 		System.out.println("\t\t\t\t\tWEB LOJA PC QUASE FERA");
@@ -18,7 +18,43 @@ public class Main {
         System.out.print("Agora, informe seu genero: F para feminino, M para masculino ou O para outros: ");
         
         //System.out.printf("%s %s, cadastro efetuado.", apelido, nome);
-
+        mostrarLista(produto);
+        //Compra de item
+        int codigo = 3;
+        int qtdCompra = 2;
+        for(Produto prod : produto) {
+        	if(prod.getCodigo() == codigo) {
+        		prod.comprar(qtdCompra);
+        		carrinho.add(new Produto(prod.getCodigo(), prod.getDescricao(), prod.getPreco(), prod.getQtdEstoque(), qtdCompra));
+        	}
+        }
+        
+        //Remoção de item
+        int tempCodigo = 1;
+        for(Produto prod : carrinho) {
+        	if(prod.getCodigo() == codigo) {
+        		tempCodigo = carrinho.indexOf(prod);
+        	}else {
+        		System.out.println("Código invalido");
+        	}
+        }
+        carrinho.remove(tempCodigo);
+        for(Produto prod : produto) {
+        	if(prod.getCodigo() == codigo) {
+        		prod.removerItem();
+        	}else {
+        		System.out.println("Código invalido");
+        	}
+        }
+        
+        
+        
+        
+        
+        mostrarCarrinho(carrinho);
+        mostrarLista(produto);
+        
+        
 	}
 	
 	public static void mostrarLista(List <Produto> produto) {
@@ -29,8 +65,15 @@ public class Main {
         for(Produto prod:produto) {
 			prod.getProduto();
 		}
-		
-        
+	}
+	public static void mostrarCarrinho(List <Produto> carrinho) {
+		System.out.print("\n[CÓDIGO]");
+		System.out.print("[PRODUTO]");
+		System.out.print("  [PREÇO]");
+		System.out.print(" [QTD]\n");
+		for(Produto prod:carrinho) {
+			prod.getComprados();
+		}
 	}
 	
 	public static List<Produto> setup() throws FileNotFoundException {
@@ -46,7 +89,7 @@ public class Main {
 		while(sc.hasNext()) {
 			lineSplit = sc.next().split(",");
 			codigo = Integer.parseInt(lineSplit[0]);
-			descricao = lineSplit[1];
+			descricao = lineSplit[1].toUpperCase();
 			qntEstoque = Integer.parseInt(lineSplit[2]);
 			preco = Double.parseDouble(lineSplit[3]);
 			produto.add(new Produto(codigo, descricao, preco, qntEstoque));
