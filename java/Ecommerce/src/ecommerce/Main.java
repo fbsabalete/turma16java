@@ -119,6 +119,7 @@ public class Main {
 		if(!carrinho.isEmpty()) {
 			do {
 				linhaDupla();
+				int qtdCompra = 0;
 				System.out.println("Digite o código do produto a alterar: ");
 				codigo = checkInt();
 				for(Produto prod : carrinho) {
@@ -126,10 +127,11 @@ public class Main {
 						prod.removerItem();
 						System.out.printf("Qual a nova quantidade? Temos %d no estoque: ", prod.getQtdEstoque());
 						prod.setQtdCompra(checkInt());
-						while(prod.getQtdCompra() > prod.getQtdEstoque()) {
+						while(prod.getQtdCompra() > prod.getQtdEstoque() || prod.getQtdCompra() < 1) {
 							System.out.printf("Digite um valor valido:");
 							prod.setQtdCompra(checkInt());	
 						}
+						qtdCompra = prod.getQtdCompra();
 						prod.comprar(prod.getQtdCompra());
 						codigoValido = true;
 					}
@@ -138,6 +140,14 @@ public class Main {
 					cliente.precoTotal = 0;
 					for(Produto prod : carrinho) {
 						cliente.precoTotal += prod.getPrecoTotalProduto();
+						qtdCompra = prod.getQtdCompra();
+					}
+					for(Produto prod : produto) {
+						if(prod.getCodigo() == codigo) {
+							prod.removerItem();
+							prod.comprar(qtdCompra);
+						}
+						
 					}
 				}else {
 					System.out.println("Código inválido.");
