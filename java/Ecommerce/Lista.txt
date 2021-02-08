@@ -1,0 +1,10 @@
+1,headset,10,150.00
+2,monitor,10,750.99
+3,teclado,10,230.00
+4,mouse,10,100.00
+5,gabinete,10,1567.99
+6,webcam,10,120.00
+7,fonte,10,80.00
+8,caboUSB,10,25.00
+9,caboHDMI,10,45.00
+10,cooler,10,529.99
