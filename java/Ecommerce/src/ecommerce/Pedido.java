@@ -15,14 +15,9 @@ public class Pedido {
 	
 	public void gerarNota(String nome, String tratamento) {
 		this.cabecalho();
-        System.out.println("Cliente: " + tratamento + nome);
-    	
-    	double imposto = this.getPrecoTotal() * 0.09;
-        System.out.printf("Impostos de 9%%: R$%.2f\n", imposto);
-        System.out.printf("Forma de pagamento selecionada: %s\nPreço final: R$ %.2f",this.getPgto(),this.precoFinal,"\n");
+        System.out.println("Cliente: " + tratamento + nome);	
 	}
-
-
+	
 	public void setFormaPgto() {
 		Scanner leia = new Scanner(System.in);
 		char formaPgto = leia.next().charAt(0);
@@ -35,13 +30,13 @@ public class Pedido {
 	}
 
 	public void imprimirFormaPgto() {
-		System.out.println("0 - débito ou dinheiro - DESCONTO DE 10%! - Valor final: R$"
-				+ (precoFinal = precoTotal - (precoTotal * 0.10)));
-		System.out.println("1 - crédito a vista - Valor final: " + (precoFinal = precoTotal));
-		System.out.println("2 - crédito em 2 parcelas - Acréscimo de 10% - Valor final: R$"
-				+ (precoFinal = precoTotal + (precoTotal * 0.10)));
-		System.out.println("3 - crédito em 3 parcelas - Acréscimo de 15% - Valor final : R$"
-				+ (precoFinal = precoTotal + (precoTotal * 0.15)));
+		System.out.printf("0 - débito ou dinheiro - DESCONTO DE 10%% - Valor final: R$%.2f\n"
+				, (precoFinal = precoTotal - (precoTotal * 0.10)));
+		System.out.printf("1 - crédito a vista - Valor final: R$%.2f\n" , (precoFinal = precoTotal));
+		System.out.printf("2 - crédito em 2 parcelas - Acréscimo de 10%% - Valor final: R$%.2f\n"
+				, (precoFinal = precoTotal + (precoTotal * 0.10)));
+		System.out.printf("3 - crédito em 3 parcelas - Acréscimo de 15%% - Valor final : R$%.2f\n"
+				, (precoFinal = precoTotal + (precoTotal * 0.15)));
 	}
 
 	public void totalFinal() {
@@ -76,7 +71,7 @@ public class Pedido {
 		System.out.println("\t—————————————————————————————————————————————————————————");
 		System.out.println("——————————————————————— WEB LOJA PC QUASE FERA ———————————————————————");
 		System.out.println("\t—————————————————————————————————————————————————————————");
-		System.out.println("tMontariamos o melhor computador do mercado se vendessemos peças o suficiente\n");
+		System.out.println("Montariamos o melhor computador do mercado se vendessemos peças o suficiente\n");
 		System.out.println("\n------------------------------------------------------------------------------\n");
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss");
 		Date date = new Date();

@@ -39,8 +39,9 @@ public class Produto {
 	public void getProduto() {
 		System.out.printf("   %d\t%s   \tR$%.2f    \t%d\n", this.getCodigo(), this.getDescricao(), this.getPreco(), this.getQtdEstoque());
 	}
+	
 	public void getComprados() {
-		System.out.printf("   %d\t%s   R$%.2f    %d\n", this.getCodigo(), this.getDescricao(), this.getPreco(), this.qtdCompra);
+		System.out.printf("   %d\t%s   R$%.2f    %d     R$%.2f\n", this.getCodigo(), this.getDescricao(), this.getPreco(), this.qtdCompra, this.getPrecoTotalProduto());
 	}
 	
 	public int getQtdCompra() {
