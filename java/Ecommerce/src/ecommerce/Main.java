@@ -115,6 +115,7 @@ public class Main {
 		mostrarCarrinho();
 		int codigo;
 		char op;
+		boolean codigoValido = false;
 		if(!carrinho.isEmpty()) {
 			do {
 				linhaDupla();
@@ -130,11 +131,16 @@ public class Main {
 							prod.setQtdCompra(checkInt());	
 						}
 						prod.comprar(prod.getQtdCompra());
+						codigoValido = true;
 					}
 				}
-				cliente.precoTotal = 0;
-				for(Produto prod : carrinho) {
-					cliente.precoTotal += prod.getPrecoTotalProduto();
+				if(codigoValido) {
+					cliente.precoTotal = 0;
+					for(Produto prod : carrinho) {
+						cliente.precoTotal += prod.getPrecoTotalProduto();
+					}
+				}else {
+					System.out.println("Código inválido.");
 				}
 				System.out.println("Deseja realizar mais alguma alteração?[S/N] ");
 				op = leia.next().toUpperCase().charAt(0);
@@ -159,7 +165,6 @@ public class Main {
 				for (Produto prod : carrinho) {
 					if (prod.getCodigo() == codigo) {
 						tempCodigo = carrinho.indexOf(prod);
-						System.out.println(tempCodigo);
 						codigoValido = true;
 					}
 				}
