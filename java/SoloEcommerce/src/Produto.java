@@ -23,6 +23,7 @@ public class Produto {
 	
 	public void comprar(int qtdCompra) {
 		this.qtdCompra = qtdCompra;
+		precoTotalProduto = this.qtdCompra * this.preco;
 		qtdEstoque -= qtdCompra;
 	}
 	
@@ -35,7 +36,7 @@ public class Produto {
 		System.out.printf("   %d\t%s   R$%.2f    %d\n", this.getCodigo(), this.getDescricao(), this.getPreco(), this.getQtdEstoque());
 	}
 	public void getComprados() {
-		System.out.printf("   %d\t%s   R$%.2f    %d\n", this.getCodigo(), this.getDescricao(), this.getPrecoTotalProduto(), this.qtdCompra);
+		System.out.printf("   %d\t%s   R$%.2f    %d\n", this.getCodigo(), this.getDescricao(), this.getPreco(), this.qtdCompra);
 	}
 	
 	
@@ -57,7 +58,7 @@ public class Produto {
 		this.qtdEstoque = qtdEstoque;
 		this.preco = preco;
 		this.qtdCompra = qtdCompra;
-		this.precoTotalProduto = this.qtdCompra * this.getPreco();
+		this.precoTotalProduto = this.qtdCompra * this.preco;
 	}
 	public int getCodigo() {
 		return codigo;

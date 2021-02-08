@@ -10,6 +10,15 @@ public class Pedido {
 	protected String pgto;
 	protected double desconto;
 	protected double parcela;
+	
+	public void gerarNota(String nome, String tratamento) {
+		this.cabecalho();
+        System.out.println("Cliente: " + tratamento + nome);
+    	
+    	double imposto = this.getPrecoTotal() * 0.09;
+        System.out.printf("\nImpostos de 9%%: R$%.2f\n", imposto);
+        System.out.printf("\nForma de pagamento selecionada: %s\nPreço final: R$ %.2f",this.getPgto(),this.precoFinal,"\n");
+	}
 
 	public double getPrecoTotal() {
 		return precoTotal;
