@@ -1,4 +1,6 @@
 package ecommerce;
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -6,13 +8,12 @@ import java.util.List;
 import java.util.Scanner;
 
 
-
 public class Main {
 	public static Scanner leia = new Scanner(System.in);
 	public static Cliente cliente = new Cliente();
 	public static List<Produto> carrinho = new ArrayList<>();
 	public static List<Produto> produto = new ArrayList<>();
-	
+
 	public static void main(String[] args) throws FileNotFoundException {
 		produto = setup(); //definição da lista padrão por txt
 		do {
@@ -30,40 +31,40 @@ public class Main {
 						+ "5 - Limpar carrinho\n"
 						+ "6 - Finalizar compra\n"
 						+ "7 - Sair\n");
-				
+
 				System.out.println("Escolha: ");
 				opcao = checkInt();
-				while(opcao < 1 || opcao > 7) {
+				while (opcao < 1 || opcao > 7) {
 					System.out.println("Digite opção correta: ");
 					opcao = checkInt();
 				}
-				
-				switch(opcao) {
-				case 1:
-					adicionarItens();
-					break;
-				case 2: 
-					removerItens();
-					break;
-				case 3:
-					alterarItens();
-					break;
-				case 4:
-					mostrarCarrinho();
-					break;
-				case 5:
-					limparCarrinho();
-					break;
-				case 6:
-					finalizarPedido();
-					break;
-				case 7:
-					break;
+
+				switch (opcao) {
+					case 1:
+						adicionarItens();
+						break;
+					case 2:
+						removerItens();
+						break;
+					case 3:
+						alterarItens();
+						break;
+					case 4:
+						mostrarCarrinho();
+						break;
+					case 5:
+						limparCarrinho();
+						break;
+					case 6:
+						finalizarPedido();
+						break;
+					case 7:
+						break;
 				}
-			}while(opcao != 7 && opcao != 6);
-		}while(true);
+			} while (opcao != 7 && opcao != 6);
+		} while (true);
 	}
-	
+
 	public static void adicionarItens() {
 		linhaDupla();
 		int codigo;
@@ -73,33 +74,37 @@ public class Main {
 			linhaDupla();
 			System.out.println("Digite o código do produto desejado: ");
 			codigo = checkInt();
-			while(codigo < 1 || codigo > 10) {
+			while (codigo < 1 || codigo > 10) {
 				System.out.println("Digite um codigo valido: ");
 				codigo = checkInt();
 			}
 			// Compra de item
 			for (Produto prod : produto) {
 				if (prod.getCodigo() == codigo) {
-					if(prod.getQtdCompra() == 0) {
+					if (prod.getQtdCompra() == 0) {
 						System.out.println("Digite a quantidade desejada: ");
 						int qtdCompra = checkInt();
-						while(qtdCompra > prod.getQtdEstoque() || qtdCompra < 0) {
-							System.out.println("Digite um valor valido.");
+						while (qtdCompra > prod.getQtdEstoque() || qtdCompra < 0) {
+							if (qtdCompra > prod.getQtdEstoque()) {
+								System.out.print("Valor acima do estoque. Digite um valor valido: ");
+								qtdCompra = checkInt();
+							}
+							System.out.print("Digite um valor valido: ");
 							qtdCompra = checkInt();
 							linhaDupla();
 						}
 						prod.comprar(qtdCompra);
 						carrinho.add(new Produto(prod.getCodigo(), prod.getDescricao(), prod.getPreco(),
 								prod.getQtdEstoque(), qtdCompra));
-					}else {
+					} else {
 						System.out.println("Você ja comprou este item.");
 					}
 				}
-				
+
 			}
-			
+
 			cliente.precoTotal = 0;
-			for(Produto prod : carrinho) {
+			for (Produto prod : carrinho) {
 				cliente.precoTotal += prod.getPrecoTotalProduto();
 			}
 			mostrarCarrinho();
@@ -107,56 +112,59 @@ public class Main {
 			System.out.println("Deseja adicionar mais itens [S/N]? ");
 			op = leia.next().toUpperCase().charAt(0);
 			linhaDupla();
-		}while(op == 'S');
+		} while (op == 'S');
 	}
-	
+
+
+
 	public static void alterarItens() {
+
 		linhaDupla();
 		mostrarCarrinho();
 		int codigo;
 		char op;
-		boolean codigoValido = false;
-		if(!carrinho.isEmpty()) {
+		if (!carrinho.isEmpty()) {
 			do {
+				boolean codigoValido = false;
 				linhaDupla();
 				int qtdCompra = 0;
 				System.out.println("Digite o código do produto a alterar: ");
 				codigo = checkInt();
-				for(Produto prod : carrinho) {
-					if(prod.getCodigo() == codigo) {
+				for (Produto prod : carrinho) {
+					if (prod.getCodigo() == codigo) {
 						prod.removerItem();
 						System.out.printf("Qual a nova quantidade? Temos %d no estoque: ", prod.getQtdEstoque());
 						prod.setQtdCompra(checkInt());
-						while(prod.getQtdCompra() > prod.getQtdEstoque() || prod.getQtdCompra() < 1) {
+						while (prod.getQtdCompra() > prod.getQtdEstoque() || prod.getQtdCompra() < 1) {
 							System.out.printf("Digite um valor valido:");
-							prod.setQtdCompra(checkInt());	
+							prod.setQtdCompra(checkInt());
 						}
 						qtdCompra = prod.getQtdCompra();
 						prod.comprar(prod.getQtdCompra());
 						codigoValido = true;
 					}
 				}
-				if(codigoValido) {
+				if (codigoValido) {
 					cliente.precoTotal = 0;
-					for(Produto prod : carrinho) {
+					for (Produto prod : carrinho) {
 						cliente.precoTotal += prod.getPrecoTotalProduto();
 						qtdCompra = prod.getQtdCompra();
 					}
-					for(Produto prod : produto) {
-						if(prod.getCodigo() == codigo) {
+					for (Produto prod : produto) {
+						if (prod.getCodigo() == codigo) {
 							prod.removerItem();
 							prod.comprar(qtdCompra);
 						}
-						
+
 					}
-				}else {
+				} else {
 					System.out.println("Código inválido.");
 				}
 				System.out.println("Deseja realizar mais alguma alteração?[S/N] ");
 				op = leia.next().toUpperCase().charAt(0);
 				linhaDupla();
-			}while(op == 'S');
-		}else {
+			} while (op == 'S');
+		} else {
 			System.out.println("Não é possivel alterar um carrinho vazio.");
 		}
 	}
@@ -166,7 +174,7 @@ public class Main {
 		mostrarCarrinho();
 		int codigo;
 		char op;
-		if(!carrinho.isEmpty()) {
+		if (!carrinho.isEmpty()) {
 			do {
 				System.out.println("Digite o código do produto quer remover: ");
 				codigo = leia.nextInt();
@@ -178,7 +186,7 @@ public class Main {
 						codigoValido = true;
 					}
 				}
-				if(codigoValido) {					
+				if (codigoValido) {
 					carrinho.remove(tempCodigo);
 					for (Produto prod : produto) {
 						if (prod.getCodigo() == codigo) {
@@ -187,26 +195,26 @@ public class Main {
 						}
 					}
 					cliente.precoTotal = 0;
-					for(Produto prod : carrinho) {
+					for (Produto prod : carrinho) {
 						cliente.precoTotal += prod.getPrecoTotalProduto();
 					}
-				}else {
+				} else {
 					System.out.println("Código invalido.");
 				}
 				mostrarCarrinho();
 				System.out.println("Deseja remover mais itens?[S/N] ");
 				op = leia.next().toUpperCase().charAt(0);
 			} while (op == 'S');
-		}else {
+		} else {
 			System.out.println("Você nao tem produtos no carrinho!");
 		}
 	}
-	
+
 	public static void finalizarPedido() {
 		Pedido pedido = new Pedido();
 		pedido.setPrecoTotal(cliente.getPrecoTotal());
-		char continua;		
-		if(!carrinho.isEmpty()) {
+		char continua;
+		if (!carrinho.isEmpty()) {
 			linhaDupla();
 			System.out.println("Formas de Pagamento:");
 			do {
@@ -218,7 +226,7 @@ public class Main {
 				System.out.println("Confirma essa forma de pagamento? [S/N]");
 				continua = leia.next().toUpperCase().charAt(0);
 				linhaDupla();
-				while (continua != 'S'&& continua != 'N') {
+				while (continua != 'S' && continua != 'N') {
 					System.out.print("Digite S para Sim ou N para não: ");
 					continua = leia.next().toUpperCase().charAt(0);
 				}
@@ -231,23 +239,23 @@ public class Main {
 				continua = leia.next().toUpperCase().charAt(0);
 			}
 			if (continua == 'S') {
-				
+
 				pedido.gerarNota(cliente.getNome(), cliente.tratamento());
 				mostrarCarrinho();
 				System.out.println();
 				double imposto = pedido.getPrecoTotal() * 0.09;
-		        System.out.printf("Impostos de 9%%: R$%.2f\n", imposto);
-		        System.out.printf("Forma de pagamento selecionada: %s\nPreço final: R$ %.2f\n",pedido.getPgto(),pedido.precoFinal,"\n");
-		        linhaDupla();
+				System.out.printf("Impostos de 9%%: R$%.2f\n", imposto);
+				System.out.printf("Forma de pagamento selecionada: %s\nPreço final: R$ %.2f\n", pedido.getPgto(), pedido.precoFinal, "\n");
+				linhaDupla();
 			} else {
-				
+
 				System.out.println("Agradeçemos e volte sempre!");
 			}
-		}else {
+		} else {
 			System.out.println("Não é possivel finalizar o pedido sem itens no carrinho.");
 		}
 	}
-	
+
 	public static void mostrarLista() {
 		System.out.print("\n[CÓDIGO]");
 		System.out.print("[PRODUTO]");
@@ -259,7 +267,7 @@ public class Main {
 	}
 
 	public static void mostrarCarrinho() {
-		
+
 		System.out.print("\n[CÓDIGO]");
 		System.out.print("[PRODUTO]");
 		System.out.print("  [PREÇO]");
@@ -269,7 +277,7 @@ public class Main {
 			prod.getComprados();
 		}
 		System.out.printf("\nSubtotal: R$%.2f\n", cliente.getPrecoTotal());
-		
+
 	}
 
 	public static List<Produto> setup() throws FileNotFoundException {
@@ -295,31 +303,31 @@ public class Main {
 		return produto;
 
 	}
-	
+
 	public static int checkInt() {
 		Scanner leia = new Scanner(System.in);
-		while(!leia.hasNextInt()) {
+		while (!leia.hasNextInt()) {
 			System.out.println("Digite um valor valido:");
 			leia.next();
 		}
 		int checked = leia.nextInt();
 		return checked;
 	}
-	
+
 	public static void linhaDupla() {
 		System.out.println("══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════");
 
 	}
-	
+
 	public static void resetarEstoque() {
-		for(Produto prod : produto) {
-			if(prod.getQtdEstoque() == 0) {
+		for (Produto prod : produto) {
+			if (prod.getQtdEstoque() == 0) {
 				System.out.printf("\nRepondo estoque de %s\n", prod.getDescricao());
 				prod.setQtdEstoque(10);
 			}
 		}
 	}
-	
+
 	public static void cabecalho() {
 		System.out.println("\n");
 		linhaDupla();
@@ -329,20 +337,20 @@ public class Main {
 		System.out.println("\t\t\t\t\tMontariamos o melhor computador do mercado se vendessemos peças o suficiente\n");
 		linhaDupla();
 	}
-	
+
 	public static void cadastro() {
 		System.out.print("Por gentileza, informe seu nome: ");
 		cliente.setNome(leia.next());
 		System.out.print("Agora, informe seu genero: F para feminino, M para masculino ou O para outros: ");
 		cliente.setGenero();
-		System.out.printf("%s %s, cadastro efetuado.", cliente.tratamento(), cliente.getNome(),"\n");
+		System.out.printf("%s %s, cadastro efetuado.", cliente.tratamento(), cliente.getNome(), "\n");
 	}
-	
+
 	public static void limparCarrinho() {
-		for(Produto prod : carrinho) {
+		for (Produto prod : carrinho) {
 			prod.removerItem();
 		}
-		for(Produto prod : produto) {
+		for (Produto prod : produto) {
 			prod.setQtdCompra(0);
 		}
 		cliente.setPrecoTotal(0);
