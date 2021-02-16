@@ -18,7 +18,6 @@ CREATE TABLE tb_classes(
     atributo VARCHAR(45) NOT NULL,
     PRIMARY KEY (id)
 );
-DROP TABLE tb_personagens;
 INSERT INTO tb_classes (nome, tipo, atributo) VALUES ("Mago", "Mágico", "Magia");
 INSERT INTO tb_classes (nome, tipo, atributo) VALUES ("Arqueiro", "Ranger", "Agilidade");
 INSERT INTO tb_classes (nome, tipo, atributo) VALUES ("Guerreiro", "Melee", "Força");
